@@ -23,13 +23,14 @@ async function editQuestion(questionNumber, keyToEdit, newValue) {
     fs.writeFileSync(questionsFilePath, JSON.stringify(questions, null, 4), "utf-8")
 }
 
-async function sendQuestion(questionNumber, ctx) {
+async function sendQuestion(questionNumber, ctx, editMessage) {
     var { text, photo, document, keyboard } = await getQuestion(questionNumber)
-    var reply_markup = (keyboard[0]?.[0]?.request_contact) ? { keyboard, one_time_keyboard: true } : { inline_keyboard: keyboard };
-    if(document && document.length != 0) return await ctx.sendDocument(document, {caption: text, reply_markup}).catch(err => console.log(err))
-    if(photo && photo.length != 0) return await ctx.replyWithPhoto(photo, {caption: text, reply_markup}).catch(err => console.log(err))
+    var reply_markup = (keyboard[0]?.[0]?.request_contact) ? { keyboard, one_time_keyboard: true } : { inline_keyboard: keyboard, resize_keyboard: true };
+    if(editMessage) return await ctx.editMessageMedia({type: photo ? "photo" : "document", media: photo ?? document, caption: text}, {reply_markup, resize_keyboard: true}).catch(err => console.log(err))
+    if(document && document.length != 0) return await ctx.sendDocument(document, {caption: text, reply_markup, resize_keyboard: true}).catch(err => console.log(err))
+    if(photo && photo.length != 0) return await ctx.replyWithPhoto(photo, {caption: text, reply_markup, resize_keyboard: true}).catch(err => console.log(err))
     if(keyboard.length == 0) keyboard.push([])
-    return await ctx.reply(text, {reply_markup}).catch(err => console.log(err))
+    return await ctx.reply(text, {reply_markup, resize_keyboard: true}).catch(err => console.log(err))
 }
 
 async function getUsers() {

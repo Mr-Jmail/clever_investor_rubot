@@ -17,13 +17,23 @@ bot.use(session())
 bot.use(stage.middleware())
 
 
-bot.start(ctx => ctx.reply("Вам исполнилось 18 лет?", {reply_markup: {inline_keyboard: [[{text: "Да", callback_data: "is18"}, {text: "Нет", callback_data: "isNot18"}]]}}).catch(err => console.log(err)))
+bot.start(ctx => ctx.replyWithPhoto("AgACAgIAAxkBAAIQ92WgBk_U9uJpSnUMQiq3L4iLI4A_AAJv1jEbRJABSWhMQVxjKC58AQADAgADeQADNAQ", {caption: "Вам исполнилось 18 лет?", reply_markup: {inline_keyboard: [[{text: "Да", callback_data: "is18"}, {text: "Нет", callback_data: "isNot18"}]]}}).catch(err => console.log(err)))
 
 bot.action("is18", ctx => ctx.scene.enter("surveyScene"))
 
 bot.action("isNot18", ctx => ctx.reply("Спасибо за желание участвовать в программе «Разумный инвестор», однако участие в ней могут принимать только граждане РФ, достигшие 18 лет. Хорошего дня!").catch(err => console.log(err)))
 
 bot.command("editQuestion", ctx => ctx.scene.enter("editQuestionScene"))
+
+bot.hears("lol", ctx => {
+    ctx.replyWithPhoto("AgACAgIAAxkBAAIDYGWdlA3NXwHvfGJmWBOSb_z8x3OQAAL81DEbLFfoSM9rn7HhjdWdAQADAgADeQADNAQ", {caption: "fd", reply_markup: {inline_keyboard: [[{text: "mem", callback_data: "mem"}]]}})
+})
+
+bot.on("photo", ctx => ctx.reply(ctx.message.photo[ctx.message.photo.length - 1].file_id))
+
+bot.action("mem", ctx => {  
+    ctx.editMessageMedia({type: "photo", media: "AgACAgIAAxkBAAIPLWWfy5OOPxU70gpwwqt6CU7DrX_QAAKw0TEbRJD5SMHUmR_mRmz0AQADAgADeQADNAQ", caption: "fdsf"}, {reply_markup: {inline_keyboard: [[{text: "lol", callback_data: "lol"}]]}})
+})
 
 bot.action(/.*/ig, async ctx => {
     var keyboard = (await getQuestion(9)).keyboard

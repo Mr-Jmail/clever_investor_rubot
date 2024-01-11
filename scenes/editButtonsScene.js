@@ -53,17 +53,17 @@ editButtonScene.action(/removeButton/ig, async ctx => {
 
 editButtonScene.action("addButton", async ctx => {
     var keyboard = (await getQuestion(ctx.scene.session.state.questionNumber)).keyboard
-    if(keyboard?.[0]?.[0]?.request_contact) return await ctx.reply(`Вы уже добавил кнопку "Поделится номером телефона", вместе с ней не может стоять никаких кнопок`, {reply_markup: {inline_keyboard: [[{text: "Назад", callback_data: "toSceneEnter"}]]}})
-    await ctx.reply("Введите название кнопки", {reply_markup: {inline_keyboard: [[{text: `"Поделиться номером телефона"`, callback_data: "phoneButton"}], [{text: "Назад", callback_data: "toSceneEnter"}]]}})
+    if(keyboard?.[0]?.[0]?.request_contact) return await ctx.reply(`Вы уже добавил кнопку "➡️Поделиться номером телефона⬅️", вместе с ней не может стоять никаких кнопок`, {reply_markup: {inline_keyboard: [[{text: "Назад", callback_data: "toSceneEnter"}]]}})
+    await ctx.reply("Введите название кнопки", {reply_markup: {inline_keyboard: [[{text: `"➡️Поделиться номером телефона⬅️"`, callback_data: "phoneButton"}], [{text: "Назад", callback_data: "toSceneEnter"}]]}})
     ctx.scene.session.state.waitingForText = true
 })
 
 editButtonScene.action("phoneButton", async ctx => {
     var keyboard = (await getQuestion(ctx.scene.session.state.questionNumber)).keyboard
-    if(keyboard.length != 0) return await ctx.reply(`Вы уже добавил другие кнопки, а кнопка "Поделится номером телефона", может стоять вместе с другими кнопками`, {reply_markup: {inline_keyboard: [[{text: "Назад", callback_data: "addButton"}]]}})
-    await editQuestion(ctx.scene.session.state.questionNumber, "keyboard", [[{text: "Поделится номером телефона", request_contact: true}]])
+    if(keyboard.length != 0) return await ctx.reply(`Вы уже добавил другие кнопки, а кнопка "➡️Поделиться номером телефона⬅️", может стоять вместе с другими кнопками`, {reply_markup: {inline_keyboard: [[{text: "Назад", callback_data: "addButton"}]]}})
+    await editQuestion(ctx.scene.session.state.questionNumber, "keyboard", [[{text: "➡️Поделиться номером телефона⬅️", request_contact: true}]])
     ctx.scene.session.state.waitingForText = false
-    await ctx.reply(`Кнопка "Поделится номером телефона" добавлена`, {reply_markup: {inline_keyboard: [[{text: "Назад", callback_data: "toSceneEnter"}]]}})
+    await ctx.reply(`Кнопка "➡️Поделиться номером телефона⬅️" добавлена`, {reply_markup: {inline_keyboard: [[{text: "Назад", callback_data: "toSceneEnter"}]]}})
 })
 
 editButtonScene.on("text", async ctx => {

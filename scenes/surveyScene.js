@@ -7,7 +7,7 @@ const { faker } = require('@faker-js/faker');
 module.exports = new Scenes.WizardScene("surveyScene", 
     async ctx => {
         ctx.scene.session.state = { variantsOfAnswer: [], firstName: "", lastName: "", phone: "" }
-        await sendQuestion(1, ctx)
+        await sendQuestion(1, ctx, true)
         await saveVariantsOfAnswer(1, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -15,7 +15,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(2, ctx)
+        await sendQuestion(2, ctx, true)
         await saveVariantsOfAnswer(2, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -23,7 +23,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(3, ctx)
+        await sendQuestion(3, ctx, true)
         await saveVariantsOfAnswer(3, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -31,7 +31,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(4, ctx)
+        await sendQuestion(4, ctx, true)
         await saveVariantsOfAnswer(4, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -39,7 +39,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(5, ctx)
+        await sendQuestion(5, ctx, true)
         await saveVariantsOfAnswer(5, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
