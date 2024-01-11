@@ -10,6 +10,7 @@ const editQuestionScene = require("./scenes/editQuestionScene")
 const editButtonScene = require("./scenes/editButtonsScene")
 const { getQuestion, getUsers, deleteUser } = require("./functions")
 const each = require("sync-each")
+const adminsChatId = 6742940719
 
 const stage = new Scenes.Stage([surveyScene, editQuestionScene, editButtonScene])
 
@@ -23,7 +24,10 @@ bot.action("is18", ctx => ctx.scene.enter("surveyScene"))
 
 bot.action("isNot18", ctx => ctx.reply("Спасибо за желание участвовать в программе «Разумный инвестор», однако участие в ней могут принимать только граждане РФ, достигшие 18 лет. Хорошего дня!").catch(err => console.log(err)))
 
-bot.command("editQuestion", ctx => ctx.scene.enter("editQuestionScene"))
+bot.command("editQuestion", ctx => {
+    if(ctx.from.id != adminsChatId) return
+    ctx.scene.enter("editQuestionScene")
+})
 
 bot.on("photo", ctx => ctx.reply(ctx.message.photo[ctx.message.photo.length - 1].file_id))
 

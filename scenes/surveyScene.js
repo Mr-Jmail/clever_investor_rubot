@@ -3,6 +3,7 @@ const { sendQuestion, getQuestion, updateUser, deleteUser } = require("../functi
 const fetch = require("node-fetch")
 const crypto = require('crypto');
 const { faker } = require('@faker-js/faker');
+const adminsChatId = 6742940719
 
 module.exports = new Scenes.WizardScene("surveyScene", 
     async ctx => {
@@ -13,7 +14,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         await sendQuestion(2, ctx, true)
         await saveVariantsOfAnswer(2, ctx)
@@ -21,7 +22,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         await sendQuestion(3, ctx, true)
         await saveVariantsOfAnswer(3, ctx)
@@ -29,7 +30,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         await sendQuestion(4, ctx, true)
         await saveVariantsOfAnswer(4, ctx)
@@ -37,7 +38,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         await sendQuestion(5, ctx, true)
         await saveVariantsOfAnswer(5, ctx)
@@ -45,7 +46,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         await sendQuestion(6, ctx)
         await saveVariantsOfAnswer(6, ctx)
@@ -53,7 +54,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         if(/[a-zA-Z0-9]/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами имя является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
         ctx.scene.session.state.firstName = ctx.message.text
@@ -63,7 +64,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
-        if(ctx?.message?.text == "/cancel") return ctx.scene.leave()
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         if(/[a-zA-Z0-9]/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами фамилия является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
         ctx.scene.session.state.lastName = ctx.message.text
