@@ -25,10 +25,6 @@ bot.action("isNot18", ctx => ctx.reply("Спасибо за желание уч�
 
 bot.command("editQuestion", ctx => ctx.scene.enter("editQuestionScene"))
 
-bot.hears("lol", ctx => {
-    ctx.replyWithPhoto("AgACAgIAAxkBAAIDYGWdlA3NXwHvfGJmWBOSb_z8x3OQAAL81DEbLFfoSM9rn7HhjdWdAQADAgADeQADNAQ", {caption: "fd", reply_markup: {inline_keyboard: [[{text: "mem", callback_data: "mem"}]]}})
-})
-
 bot.on("photo", ctx => ctx.reply(ctx.message.photo[ctx.message.photo.length - 1].file_id))
 
 bot.action("mem", ctx => {  
@@ -43,7 +39,11 @@ bot.action(/.*/ig, async ctx => {
     if(ctx.callbackQuery.data == currencyButton.callback_data) {
         var res = await fetch("https://www.cbr-xml-daily.ru/daily_json.js", {method: "get"})
         var { USD, EUR, KZT, BYN } = (await res.json()).Valute
-        await ctx.reply(`USD - RUB = ${USD.Value}\nEUR - RUB = ${EUR.Value}\nKZT - RUB = ${KZT.Value}\nBYN - RUB = ${BYN.Value}`, {reply_markup: {inline_keyboard: [[stockButton]]}}).catch(err => console.log(err))
+        var text = `USD - RUB = ${USD.Value}\nEUR - RUB = ${EUR.Value}\nKZT - RUB = ${KZT.Value}\nBYN - RUB = ${BYN.Value}`
+        var reply_markup = {inline_keyboard: [[stockButton]]}
+        await ctx.editMessageText(text, {reply_markup}).catch(async err => {
+            await ctx.reply(text, {reply_markup}).catch(err => console.log(err))
+        })
     }
 
     if(ctx.callbackQuery.data == stockButton.callback_data) {
@@ -53,7 +53,11 @@ bot.action(/.*/ig, async ctx => {
         var yandex = (data.securities.data.find(x => x[0] == "YNDX"))[3]
         var gazprom = (data.securities.data.find(x => x[0] == "GAZP"))[3]
         var tinkoff = (data.securities.data.find(x => x[0] == "TCSG"))[3]
-        ctx.reply(`Sber: ${sber}\nYandex: ${yandex}\nGazprom: ${gazprom}\nTinkoff: ${tinkoff}`, {reply_markup: {inline_keyboard: [[currencyButton]]}}).catch(err => console.log(err))
+        var text = `Sber: ${sber}\nYandex: ${yandex}\nGazprom: ${gazprom}\nTinkoff: ${tinkoff}`
+        var reply_markup = {inline_keyboard: [[currencyButton]]}
+        await ctx.editMessageText(text, {reply_markup}).catch(async err => {
+            await ctx.reply(text, {reply_markup}).catch(err => console.log(err))
+        })
     }
 })
 
