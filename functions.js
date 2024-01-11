@@ -38,7 +38,6 @@ async function getUsers() {
 
 async function updateUser(chatId) {
     var users = await getUsers()
-    console.log(users);
     var user = users.find(user => user.chatId == chatId)
     
     var time = new Date().getTime()

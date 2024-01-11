@@ -36,11 +36,8 @@ editQuestionScene.action("toMainMenu", ctx => {
 editQuestionScene.action(/questionNumber/ig, async ctx => await questionNumberHandler(ctx))
 
 async function questionNumberHandler(ctx, questNumber = undefined) {
-    console.log(ctx.callbackQuery.data);
     var questionNumber = questNumber ?? ctx.callbackQuery.data.replace("questionNumber", "")
-    console.log(questionNumber);
     var question = await getQuestion(questionNumber).catch(err => console.log(err))
-    console.log(question);
     var questionHasPhoto = question.photo != undefined
     ctx.scene.session.state = { questionNumber: questNumber ? undefined : questionNumber, waitingForNewText: false, waitingForNewPhoto: false, waitingForNewDocument: false, waitingForNewButtons: false }
     await ctx.reply("Сейчас сообщение выглядит вот так⬇️").catch(err => console.log(err))

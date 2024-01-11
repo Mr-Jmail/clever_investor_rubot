@@ -84,18 +84,13 @@ module.exports = new Scenes.WizardScene("surveyScene",
 
 async function saveVariantsOfAnswer(questionNumber, ctx) {
     var keyboard = (await getQuestion(questionNumber)).keyboard
-    console.log(`questionNumber: ${questionNumber}`);
-    console.log(`keyboard.request_contact: ${keyboard[0]?.[0]?.request_contact}`);
     if(keyboard.length == 0) return ctx.scene.session.state.variantsOfAnswer = []
     if(keyboard[0]?.[0]?.request_contact) return ctx.scene.session.state.variantsOfAnswer = ["request_contact"]
     ctx.scene.session.state.variantsOfAnswer = keyboard.flat().map(button => button.callback_data)
 }
 
 async function checkVariantsOfAnser(ctx) {
-    console.log("Variants of answer");
-    console.log(ctx.scene.session.state.variantsOfAnswer);
-    console.log(`CallbackQuery: ${ctx?.callbackQuery?.data}`);
-    if(ctx.scene.session.state.variantsOfAnswer.includes("request_contact") && ctx?.message?.contact) {console.log("here"); return false}
+    if(ctx.scene.session.state.variantsOfAnswer.includes("request_contact") && ctx?.message?.contact) return false
     if(ctx.scene.session.state.variantsOfAnswer.length == 0 && !ctx?.message?.text) return await ctx.reply("Введите ответ текстом пожалуйста").catch(err => console.log(err))
     if(ctx.scene.session.state.variantsOfAnswer.length != 0 && !ctx.callbackQuery) return await ctx.reply("Дайте ответ, выбрав одну из кнопок").catch(err => console.log(err))
     if(ctx.scene.session.state.variantsOfAnswer != 0 && !ctx.scene.session.state.variantsOfAnswer.includes(ctx.callbackQuery.data)) return await ctx.reply("Выберите одну из кнопок").catch(err => console.log(err))

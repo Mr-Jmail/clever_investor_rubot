@@ -28,7 +28,6 @@ bot.command("editQuestion", ctx => ctx.scene.enter("editQuestionScene"))
 bot.action(/.*/ig, async ctx => {
     var keyboard = (await getQuestion(9)).keyboard
     var currencyButton = keyboard[0][0]
-    console.log(currencyButton);
     var stockButton = keyboard[1][0]
 
     if(ctx.callbackQuery.data == currencyButton.callback_data) {
@@ -50,11 +49,8 @@ bot.action(/.*/ig, async ctx => {
 
 cron.schedule("* * * * *", async() => {
     each(await getUsers(), async (user, next) => {
-        console.log("checking " + user.chatId)
         var timeToPing = user.time + 30 * 60 * 1000
         var nowTime = new Date().getTime()
-        console.log(timeToPing);
-        console.log(nowTime);
         if(timeToPing >= nowTime) return await next()
         await bot.telegram.sendMessage(user.chatId, "Пожалуйста, закончите регистрацию и получите подарок").catch(err => console.log(err))
         await deleteUser(user.chatId)
