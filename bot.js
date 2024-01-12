@@ -36,7 +36,7 @@ bot.action("mem", ctx => {
 })
 
 bot.action(/.*/ig, async ctx => {
-    var keyboard = (await getQuestion(9)).keyboard
+    var keyboard = (await getQuestion(10)).keyboard
     var currencyButton = keyboard[0][0]
     var stockButton = keyboard[1][0]
 

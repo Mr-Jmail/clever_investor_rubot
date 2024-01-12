@@ -78,6 +78,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         if(await checkVariantsOfAnser(ctx)) return
         ctx.scene.session.state.phone = ctx.message.contact.phone_number
         await sendQuestion(9, ctx)
+        await sendQuestion(10, ctx)
         await deleteUser(ctx.from.id)
         await saveToCRM(ctx.scene.session.state.phone, ctx.scene.session.state.firstName, ctx.scene.session.state.lastName, await generateRandomEmail())
         return ctx.scene.leave()
