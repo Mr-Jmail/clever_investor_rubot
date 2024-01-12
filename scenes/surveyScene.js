@@ -74,6 +74,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         return ctx.wizard.next()
     },
     async ctx => {
+        if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         ctx.scene.session.state.phone = ctx.message.contact.phone_number
         await sendQuestion(9, ctx)
