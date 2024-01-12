@@ -3,7 +3,7 @@ const { sendQuestion, getQuestion, updateUser, deleteUser } = require("../functi
 const fetch = require("node-fetch")
 const crypto = require('crypto');
 const { faker } = require('@faker-js/faker');
-const adminsChatId = 6742940719
+const adminsChatId = 6477303544
 
 module.exports = new Scenes.WizardScene("surveyScene", 
     async ctx => {

@@ -10,7 +10,7 @@ const editQuestionScene = require("./scenes/editQuestionScene")
 const editButtonScene = require("./scenes/editButtonsScene")
 const { getQuestion, getUsers, deleteUser } = require("./functions")
 const each = require("sync-each")
-const adminsChatId = 6742940719
+const adminsChatId = 6477303544
 
 const stage = new Scenes.Stage([surveyScene, editQuestionScene, editButtonScene])
 
