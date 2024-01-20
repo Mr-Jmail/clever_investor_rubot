@@ -8,7 +8,7 @@ const cron = require("node-cron")
 const surveyScene = require("./scenes/surveyScene")
 const editQuestionScene = require("./scenes/editQuestionScene")
 const editButtonScene = require("./scenes/editButtonsScene")
-const { getQuestion, getUsers, deleteUser, pushUserToStatistics } = require("./functions")
+const { getQuestion, getUsers, deleteUser, pushUserToStatistics, getStatistics } = require("./functions")
 const each = require("sync-each")
 const adminsChatId = 6477303544
 
