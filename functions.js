@@ -38,10 +38,10 @@ async function getStatistics() {
     return { allUsers, usersCompletedSurvey } = JSON.parse(fs.readFileSync(statisticsFilePath, "utf-8"))
 }
 
-async function pushUserToStatistics(isUserCompletedSurvey = false) {
+async function pushUserToStatistics(chatId, isUserCompletedSurvey = false) {
     var { allUsers, usersCompletedSurvey } = await getStatistics()
-    if(isUserCompletedSurvey) usersCompletedSurvey += 1
-    else allUsers += 1
+    if(isUserCompletedSurvey && !usersCompletedSurvey.includes(chatId)) usersCompletedSurvey.push(chatId)
+    else if(!isUserCompletedSurvey && !allUsers.includes(chatId)) allUsers.push(chatId)
     fs.writeFileSync(statisticsFilePath, JSON.stringify({ allUsers, usersCompletedSurvey }, null, 4), "utf-8")
 }
 
@@ -67,8 +67,4 @@ async function deleteUser(chatId) {
     fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 4), "utf-8")
 }
 
-
-
-
-pushUserToStatistics()
 module.exports = { getQuestions, getQuestion, editQuestion, sendQuestion, getStatistics, pushUserToStatistics, getUsers, updateUser, deleteUser }

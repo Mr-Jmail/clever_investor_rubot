@@ -19,7 +19,7 @@ bot.use(stage.middleware())
 
 
 bot.start(ctx => {
-    pushUserToStatistics()
+    pushUserToStatistics(ctx.from.id)
     ctx.replyWithPhoto("AgACAgIAAxkBAAIQ92WgBk_U9uJpSnUMQiq3L4iLI4A_AAJv1jEbRJABSWhMQVxjKC58AQADAgADeQADNAQ", {caption: "Вам исполнилось 18 лет?", reply_markup: {inline_keyboard: [[{text: "Да", callback_data: "is18"}, {text: "Нет", callback_data: "isNot18"}]]}}).catch(err => console.log(err))
 })
 
@@ -35,7 +35,7 @@ bot.command("editQuestion", ctx => {
 bot.command("getStatistics", async ctx => {
     if(ctx.from.id != adminsChatId) return
     const { allUsers, usersCompletedSurvey } = await getStatistics()
-    await ctx.reply(`Всего зашли в бота: ${allUsers}\nИз них прошли до конца опрос: ${usersCompletedSurvey}`)
+    await ctx.reply(`Всего зашли в бота: ${allUsers.length}\nИз них прошли до конца опрос: ${usersCompletedSurvey.length}`)
 })
 
 bot.on("photo", ctx => ctx.reply(ctx.message.photo[ctx.message.photo.length - 1].file_id))

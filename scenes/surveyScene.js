@@ -81,7 +81,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         await sendQuestion(10, ctx).catch(err => console.log(err))
         await deleteUser(ctx.from.id)
         await saveToCRM(ctx.scene.session.state.phone, ctx.scene.session.state.firstName, ctx.scene.session.state.lastName, await generateRandomEmail())
-        await pushUserToStatistics(true)
+        await pushUserToStatistics(pushUserToStatistics, true)
         return ctx.scene.leave()
     }
 )
