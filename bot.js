@@ -33,7 +33,7 @@ bot.command("editQuestion", ctx => {
 })
 
 bot.command("getStatistics", async ctx => {
-    if(ctx.from.id != adminsChatId) return
+    // if(ctx.from.id != adminsChatId) return
     const { allUsers, usersCompletedSurvey } = await getStatistics()
     await ctx.reply(`Всего зашли в бота: ${allUsers}\nИз них прошли до конца опрос: ${usersCompletedSurvey}`)
 })
