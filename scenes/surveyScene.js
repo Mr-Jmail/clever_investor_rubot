@@ -1,5 +1,5 @@
 const { Scenes } = require("telegraf")
-const { sendQuestion, getQuestion, updateUser, deleteUser } = require("../functions")
+const { sendQuestion, getQuestion, updateUser, deleteUser, pushUserToStatistics } = require("../functions")
 const fetch = require("node-fetch")
 const crypto = require('crypto');
 const { faker } = require('@faker-js/faker');
@@ -81,6 +81,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         await sendQuestion(10, ctx).catch(err => console.log(err))
         await deleteUser(ctx.from.id)
         await saveToCRM(ctx.scene.session.state.phone, ctx.scene.session.state.firstName, ctx.scene.session.state.lastName, await generateRandomEmail())
+        await pushUserToStatistics(true)
         return ctx.scene.leave()
     }
 )

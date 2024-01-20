@@ -1,6 +1,7 @@
 const path = require("path")
 const fs = require("fs")
 const questionsFilePath = path.join(__dirname, "questions.json")
+const statisticsFilePath = path.join(__dirname, "statistics.json")
 const usersFilePath = path.join(__dirname, "users.json")
 
 async function getQuestions() {
@@ -33,6 +34,17 @@ async function sendQuestion(questionNumber, ctx, editMessage) {
     return await ctx.reply(text, {reply_markup, one_time_keyboard: true}).catch(err => console.log(err))
 }
 
+async function getStatistics() {
+    return { allUsers, usersCompletedSurvey } = JSON.parse(fs.readFileSync(statisticsFilePath, "utf-8"))
+}
+
+async function pushUserToStatistics(isUserCompletedSurvey = false) {
+    var { allUsers, usersCompletedSurvey } = await getStatistics()
+    if(isUserCompletedSurvey) usersCompletedSurvey += 1
+    else allUsers += 1
+    fs.writeFileSync(statisticsFilePath, JSON.stringify({ allUsers, usersCompletedSurvey }, null, 4), "utf-8")
+}
+
 async function getUsers() {
     return JSON.parse(fs.readFileSync(usersFilePath, "utf-8"))
 }
@@ -55,4 +67,8 @@ async function deleteUser(chatId) {
     fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 4), "utf-8")
 }
 
-module.exports = { getQuestions, getQuestion, editQuestion, sendQuestion, getUsers, updateUser, deleteUser }
+
+
+
+pushUserToStatistics()
+module.exports = { getQuestions, getQuestion, editQuestion, sendQuestion, getStatistics, pushUserToStatistics, getUsers, updateUser, deleteUser }

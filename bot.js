@@ -8,7 +8,7 @@ const cron = require("node-cron")
 const surveyScene = require("./scenes/surveyScene")
 const editQuestionScene = require("./scenes/editQuestionScene")
 const editButtonScene = require("./scenes/editButtonsScene")
-const { getQuestion, getUsers, deleteUser } = require("./functions")
+const { getQuestion, getUsers, deleteUser, pushUserToStatistics } = require("./functions")
 const each = require("sync-each")
 const adminsChatId = 6477303544
 
@@ -18,7 +18,10 @@ bot.use(session())
 bot.use(stage.middleware())
 
 
-bot.start(ctx => ctx.replyWithPhoto("AgACAgIAAxkBAAIQ92WgBk_U9uJpSnUMQiq3L4iLI4A_AAJv1jEbRJABSWhMQVxjKC58AQADAgADeQADNAQ", {caption: "Вам исполнилось 18 лет?", reply_markup: {inline_keyboard: [[{text: "Да", callback_data: "is18"}, {text: "Нет", callback_data: "isNot18"}]]}}).catch(err => console.log(err)))
+bot.start(ctx => {
+    pushUserToStatistics()
+    ctx.replyWithPhoto("AgACAgIAAxkBAAIQ92WgBk_U9uJpSnUMQiq3L4iLI4A_AAJv1jEbRJABSWhMQVxjKC58AQADAgADeQADNAQ", {caption: "Вам исполнилось 18 лет?", reply_markup: {inline_keyboard: [[{text: "Да", callback_data: "is18"}, {text: "Нет", callback_data: "isNot18"}]]}}).catch(err => console.log(err))
+})
 
 bot.action("is18", ctx => ctx.scene.enter("surveyScene"))
 
@@ -27,6 +30,12 @@ bot.action("isNot18", ctx => ctx.reply("Спасибо за желание уч�
 bot.command("editQuestion", ctx => {
     if(ctx.from.id != adminsChatId) return
     ctx.scene.enter("editQuestionScene")
+})
+
+bot.command("getStatistics", async ctx => {
+    if(ctx.from.id != adminsChatId) return
+    const { allUsers, usersCompletedSurvey } = await getStatistics()
+    await ctx.reply(`Всего зашли в бота: ${allUsers}\nИз них прошли до конца опрос: ${usersCompletedSurvey}`)
 })
 
 bot.on("photo", ctx => ctx.reply(ctx.message.photo[ctx.message.photo.length - 1].file_id))
