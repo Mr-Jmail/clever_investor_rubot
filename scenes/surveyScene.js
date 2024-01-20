@@ -8,7 +8,7 @@ const adminsChatId = 6477303544
 module.exports = new Scenes.WizardScene("surveyScene", 
     async ctx => {
         ctx.scene.session.state = { variantsOfAnswer: [], firstName: "", lastName: "", phone: "" }
-        await sendQuestion(1, ctx, true)
+        await sendQuestion(1, ctx, true).catch(err => console.log(err))
         await saveVariantsOfAnswer(1, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -16,7 +16,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(2, ctx, true)
+        await sendQuestion(2, ctx, true).catch(err => console.log(err))
         await saveVariantsOfAnswer(2, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -24,7 +24,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(3, ctx, true)
+        await sendQuestion(3, ctx, true).catch(err => console.log(err))
         await saveVariantsOfAnswer(3, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -32,7 +32,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(4, ctx, true)
+        await sendQuestion(4, ctx, true).catch(err => console.log(err))
         await saveVariantsOfAnswer(4, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -40,7 +40,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(5, ctx, true)
+        await sendQuestion(5, ctx, true).catch(err => console.log(err))
         await saveVariantsOfAnswer(5, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -48,7 +48,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        await sendQuestion(6, ctx)
+        await sendQuestion(6, ctx).catch(err => console.log(err))
         await saveVariantsOfAnswer(6, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -58,7 +58,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         if(await checkVariantsOfAnser(ctx)) return
         if(/[a-zA-Z0-9]/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами имя является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
         ctx.scene.session.state.firstName = ctx.message.text
-        await sendQuestion(7, ctx)
+        await sendQuestion(7, ctx).catch(err => console.log(err))
         await saveVariantsOfAnswer(7, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -68,7 +68,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
         if(await checkVariantsOfAnser(ctx)) return
         if(/[a-zA-Z0-9]/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами фамилия является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
         ctx.scene.session.state.lastName = ctx.message.text
-        await sendQuestion(8, ctx)
+        await sendQuestion(8, ctx).catch(err => console.log(err))
         await saveVariantsOfAnswer(8, ctx)
         await updateUser(ctx.from.id)
         return ctx.wizard.next()
@@ -77,8 +77,8 @@ module.exports = new Scenes.WizardScene("surveyScene",
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
         ctx.scene.session.state.phone = ctx.message.contact.phone_number
-        await sendQuestion(9, ctx)
-        await sendQuestion(10, ctx)
+        await sendQuestion(9, ctx).catch(err => console.log(err))
+        await sendQuestion(10, ctx).catch(err => console.log(err))
         await deleteUser(ctx.from.id)
         await saveToCRM(ctx.scene.session.state.phone, ctx.scene.session.state.firstName, ctx.scene.session.state.lastName, await generateRandomEmail())
         return ctx.scene.leave()

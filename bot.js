@@ -31,9 +31,7 @@ bot.command("editQuestion", ctx => {
 
 bot.on("photo", ctx => ctx.reply(ctx.message.photo[ctx.message.photo.length - 1].file_id))
 
-bot.action("mem", ctx => {  
-    ctx.editMessageMedia({type: "photo", media: "AgACAgIAAxkBAAIPLWWfy5OOPxU70gpwwqt6CU7DrX_QAAKw0TEbRJD5SMHUmR_mRmz0AQADAgADeQADNAQ", caption: "fdsf"}, {reply_markup: {inline_keyboard: [[{text: "lol", callback_data: "lol"}]]}})
-})
+bot.on("document", ctx => ctx.reply(ctx.message.document.file_id))
 
 bot.action(/.*/ig, async ctx => {
     var keyboard = (await getQuestion(10)).keyboard

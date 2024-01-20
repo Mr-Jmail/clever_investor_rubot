@@ -17,7 +17,7 @@ editQuestionScene.enter(ctx => {
     each(questions,
         async function(_, next) {
             await ctx.reply(`${++i}й вопрос:`).catch(err => console.log(err))
-            await sendQuestion(i, ctx)
+            await sendQuestion(i, ctx).catch(err => console.log(err))
             next()
         },
         function() {
@@ -41,7 +41,7 @@ async function questionNumberHandler(ctx, questNumber = undefined) {
     var questionHasPhoto = question.photo != undefined
     ctx.scene.session.state = { questionNumber: questNumber ? undefined : questionNumber, waitingForNewText: false, waitingForNewPhoto: false, waitingForNewDocument: false, waitingForNewButtons: false }
     await ctx.reply("Сейчас сообщение выглядит вот так⬇️").catch(err => console.log(err))
-    await sendQuestion(questionNumber, ctx)
+    await sendQuestion(questionNumber, ctx).catch(err => console.log(err))
     await ctx.reply("Что хотите изменить?", {reply_markup: {inline_keyboard: [[{text: "Изменить текст", callback_data: `changeText${questionNumber}`}], questionHasPhoto ? [{text: "Заменить фотографию", callback_data: `changePhoto${questionNumber}`}] : [{text: "Заменить документ", callback_data: `changeDocument${questionNumber}`}], [{text: "Изменить кнопки", callback_data: `changeButtons${questionNumber}`}], [{text: "Назад", callback_data: "reenterScene"}]]}}).catch(err => console.log(err))
 }
 
