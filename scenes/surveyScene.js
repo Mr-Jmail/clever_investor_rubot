@@ -56,7 +56,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        if(/^[а-яА-Я]{2,}$/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами имя является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
+        if(!/^[а-яА-Я]{2,}$/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами имя является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
         ctx.scene.session.state.firstName = ctx.message.text
         await sendQuestion(7, ctx).catch(err => console.log(err))
         await saveVariantsOfAnswer(7, ctx)
@@ -66,7 +66,7 @@ module.exports = new Scenes.WizardScene("surveyScene",
     async ctx => {
         if(ctx?.message?.text == "/cancel" && ctx.from.id == adminsChatId) return ctx.scene.leave()
         if(await checkVariantsOfAnser(ctx)) return
-        if(/^[а-яА-Я]{2,}$/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами фамилия является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
+        if(!/^[а-яА-Я]{2,}$/.test(ctx.message.text)) return await ctx.reply("❌ Введенная Вами фамилия является некорректной. Пожалуйста, введите вашу фамилию еще раз").catch(err => console.log(err))
         ctx.scene.session.state.lastName = ctx.message.text
         await sendQuestion(8, ctx).catch(err => console.log(err))
         await saveVariantsOfAnswer(8, ctx)
