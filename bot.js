@@ -34,6 +34,7 @@ bot.command("editQuestion", ctx => {
 
 bot.command("getStatistics", async ctx => {
     // if(ctx.from.id != adminsChatId) return
+    console.log("here")
     const { allUsers, usersCompletedSurvey } = await getStatistics()
     await ctx.reply(`Всего зашли в бота: ${allUsers}\nИз них прошли до конца опрос: ${usersCompletedSurvey}`)
 })
